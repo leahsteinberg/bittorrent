@@ -14,22 +14,13 @@ class Tracker:
     self.peers = peer_list
 
 
-class Peer:
-  def __init__(self, ip_addr, peer_port):
-    self.ip_addr = ip_addr
-    self.socket = None
-    self.port = port
-    self.pieces = []
-    self.choked = True
-    self.messages = []
-    message_ids = [choke, unchoke, interested, not_interested, have, bitfield, request, piece, cancel, port]
-
+class Peer:  
   def choke(message):
     #print "choke"
     self.choked = True
 
   def unchoke(message):
-    #print "unchoke"
+    print "unchoke"
     self.choked = False
   
   def interested(message):
@@ -39,11 +30,11 @@ class Peer:
     pass
 
   def have(message):
-    #print "in have: "
+    print "in have: "
     piece_have = ord(message[0])*(256**3)+ord(message[1])*(256**2)+ord(message[2])*(256**1)+ord(message[3])
     #passes in 4 byte payload -> representing one number.
     self.pieces.append(piece_have)
-    #print peer.pieces
+    print peer.pieces
 
   def request(message):
     pass
@@ -85,8 +76,20 @@ class Peer:
       if bit_field[j]=='1':
         self.pieces.append(j)
 
+  
+  def __init__(self, ip_addr, peer_port):
+    self.ip_addr = ip_addr
+    self.socket = None
+    self.port = peer_port
+    self.pieces = []
+    self.choked = True
+    self.messages = []
+    message_ids = [self.choke, self.unchoke, self.interested, self.not_interested, self.have, self.bitfield, self.request, self.piece, self.cancel, self.port]
+
+
+
   def parse(buff):
-    #print "start of parse"
+    print "start of parse"
     message_len = ord(buff[0])*(256**3)+ord(buff[1])*(256**2)+ord(buff[2])*(256**1)+ord(buff[3])
     message_type = ord(buff[4])
     # grab the message from the string based on the length
@@ -96,7 +99,7 @@ class Peer:
     return buff
 
   def write_file():
-
+    pass
 
 
 
